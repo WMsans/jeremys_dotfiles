@@ -1,1 +1,8 @@
-{}
+{
+    "SplitLargeMessages": true,
+    "BDFDB": false,
+    "HideDisabledEmojis": true,
+    "BetterFriendList": true,
+    "CharCounter": true,
+    "InvisibleTyping": true
+}

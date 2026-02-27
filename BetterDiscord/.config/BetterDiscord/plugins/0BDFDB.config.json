@@ -1,0 +1,35 @@
+{
+	"all": {
+		"changeLogs": {
+			"BDFDB": "4.4.6",
+			"BetterFriendList": "1.6.8",
+			"CharCounter": "1.7.1",
+			"SplitLargeMessages": "1.8.7"
+		},
+		"choices": {
+			"toastPosition": "right"
+		},
+		"general": {
+			"shareData": true,
+			"showToasts": true,
+			"checkForUpdates": false,
+			"showSupportBadges": false,
+			"useChromium": false
+		},
+		"hashes": {
+			"0BDFDB.data.json": "b7e1d2d9f648471712355e67b6df0df0208fe27b",
+			"0BDFDB.raw.css": "edada1edc762888eebc5aa44e5b8c1baf2e60104"
+		}
+	},
+	"ModuleIdCache": {
+		"DiscordTag": "297413",
+		"Menu": "861672",
+		"EmojiPickerListRow": "923861",
+		"ChannelTextAreaEditor": "415409",
+		"PeopleListItem": "414711",
+		"PeopleListSectionedLazy": "518620",
+		"TabBar": "761508",
+		"AnalyticsContext": "820284",
+		"PeopleListSectionedNonLazy": "901319"
+	}
+}
