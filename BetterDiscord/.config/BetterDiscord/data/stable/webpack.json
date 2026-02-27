@@ -1,0 +1,17 @@
+{
+    "core-SimpleMarkdownWrapper": "46054",
+    "core-React": "64700",
+    "core-Dispatcher": "73153",
+    "core-AccessibilityContext": "158954",
+    "core-ReactSpring": "278420",
+    "core-Tooltip": "397927",
+    "core-contextmenu-Actions": "442433",
+    "core-commandmanager-appIcons": "664929",
+    "core-settings-search": "368631",
+    "core-themeattributes-MessageComponent": "371741",
+    "core-themeattributes-messageHook": "672341",
+    "core-themeattributes-VoiceUserComponent": "481947",
+    "core-themeattributes-ChatAvatar": "643204",
+    "core-themeattributes-AvatarImg": "97808",
+    "core-SimpleMarkdown": "791332"
+}

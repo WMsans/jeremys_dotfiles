@@ -1,0 +1,442 @@
+/* Catppuccin Mocha Palette */
+* {
+    font-family: JetBrainsMono Nerd Font;
+    font-size: 12px;
+    font-weight: 500;
+    min-height: 0;
+}
+
+/* Catppuccin Mocha Colors */
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+@define-color text #cdd6f4;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color mauve #cba6f7;
+@define-color pink #f5c2e7;
+@define-color maroon #eba0ac;
+@define-color peach #fab387;
+@define-color yellow #f9e2af;
+@define-color green #a6e3a1;
+@define-color teal #94e2d5;
+@define-color sky #89dceb;
+@define-color sapphire #74c7ec;
+@define-color blue #89b4fa;
+@define-color lavender #b4befe;
+@define-color red #f38ba8;
+
+/* Main Window */
+window#waybar {
+    background: rgba(30, 30, 46, 0.75);
+    border-top: 2px solid rgba(203, 166, 247, 0);
+    color: @text;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0);
+}
+
+window#waybar.hidden {
+    opacity: 0;
+}
+
+/* Workspace Styling */
+#workspaces button {
+    padding: 0 12px;
+    margin: 6px 4px;
+    background: rgba(49, 50, 68, 0.85);
+    color: @subtext0;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 24px;
+}
+
+#workspaces button:hover {
+    background: rgba(69, 71, 90, 0.9);
+    color: @mauve;
+    border-color: rgba(203, 166, 247, 0.3);
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.25);
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    background: linear-gradient(135deg, rgba(203, 166, 247, 0.9) 0%, rgba(245, 194, 231, 0.9) 100%);
+    color: @base;
+    font-weight: 700;
+    border-color: rgba(203, 166, 247, 0.5);
+    padding: 0 14px;
+    box-shadow: 0 4px 16px rgba(203, 166, 247, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+#workspaces button.urgent {
+    background: linear-gradient(135deg, @red 0%, @maroon 100%);
+    color: @base;
+    animation: urgent-pulse 1s ease infinite;
+}
+
+@keyframes urgent-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(243,139,168,0.7); }
+    50%  { box-shadow: 0 0 0 8px rgba(243,139,168,0); }
+    100% { box-shadow: 0 0 0 0 rgba(243,139,168,0.7); }
+}
+
+
+/* Module Base Styling */
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#wireplumber,
+#bluetooth,
+#custom-updates,
+#tray {
+    padding: 6px 14px;
+    margin: 6px 4px;
+    background-color: shade(@base, 0.9);
+    color: @text;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#clock {
+    background-color: shade(@base, 0.9);
+    color: @mauve;
+    border-color: rgba(203, 166, 247, 0.2);
+    padding: 6px 18px;
+    margin-right: 8px;
+}
+
+#clock:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.3);
+}
+
+/* Battery Styling */
+#battery {
+    background-color: shade(@base, 0.9);
+    color: @green;
+    border-color: rgba(166, 227, 161, 0.2);
+}
+
+#battery.charging {
+    background-color: shade(@base, 0.9);
+    color: @yellow;
+    border-color: rgba(249, 226, 175, 0.3);
+    animation: charging-glow 2s ease infinite;
+}
+
+@keyframes charging-glow {
+    100% {
+        box-shadow: 0 0 8px rgba(249, 226, 175, 0.3);
+    }
+    0% {
+        box-shadow: 0 0 8px rgba(249, 226, 175, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(249, 226, 175, 0.5);
+    }
+}
+
+#battery.warning:not(.charging) {
+    background-color: shade(@base, 0.9);
+    color: @peach;
+    border-color: rgba(250, 179, 135, 0.4);
+}
+
+#battery.critical:not(.charging) {
+    background-color: shade(@base, 0.9);
+    color: @red; /* Changed from @base to @red for visibility */
+    font-weight: 700;
+    animation: critical-pulse 0.8s ease infinite;
+}
+
+@keyframes critical-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(243, 139, 168, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(243, 139, 168, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(243, 139, 168, 0);
+    }
+}
+
+/* CPU Styling */
+#cpu {
+    background-color: shade(@base, 0.9);
+    color: @sky;
+    border-color: rgba(137, 220, 235, 0.2);
+}
+
+#cpu:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(137, 220, 235, 0.3);
+}
+
+/* Memory Styling */
+#memory {
+    background-color: shade(@base, 0.9);
+    color: @teal;
+    border-color: rgba(148, 226, 213, 0.2);
+}
+
+#memory:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(148, 226, 213, 0.3);
+}
+
+/* Network Styling */
+#network {
+    background-color: shade(@base, 0.9);
+    color: @sapphire;
+    border-color: rgba(116, 199, 236, 0.2);
+}
+
+#network.disconnected {
+    background-color: shade(@base, 0.9);
+    color: @red;
+    border-color: rgba(243, 139, 168, 0.4);
+    animation: disconnect-blink 1s ease infinite;
+}
+
+@keyframes disconnect-blink {
+    0% { opacity: 1; }
+    100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+#network:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(116, 199, 236, 0.3);
+}
+
+/* Wireplumber (Audio) Styling */
+#wireplumber {
+    background-color: shade(@base, 0.9);
+    color: @lavender;
+    border-color: rgba(180, 190, 254, 0.2);
+}
+
+#wireplumber.muted {
+    background-color: shade(@base, 0.9);
+    color: @overlay0;
+}
+
+#wireplumber:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(180, 190, 254, 0.3);
+}
+
+/* Bluetooth Styling */
+#bluetooth {
+    background-color: shade(@base, 0.9);
+    color: @blue;
+    border-color: rgba(137, 180, 250, 0.2);
+}
+
+#bluetooth:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(137, 180, 250, 0.3);
+}
+/* Nightlight Styling */
+#custom-nightlight {
+    padding: 6px 14px;
+    margin: 6px 4px;
+    background-color: shade(@base, 0.9);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* nightlight styling */
+#custom-nightlight.on {
+    color: @peach;
+    border-color: rgba(250, 179, 135, 0.2);
+}
+
+#custom-nightlight.off {
+    color: @sky;
+    border-color: rgba(137, 220, 235, 0.2);
+}
+
+#custom-nightlight:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.3);
+}
+
+/* Updates Styling */
+#custom-updates {
+    background-color: shade(@base, 0.9);
+    color: @green;
+    border-color: rgba(166, 227, 161, 0.2);
+}
+
+#custom-updates:hover {
+    background-color: shade(@base, 0.9);
+    box-shadow: 0 4px 12px rgba(166, 227, 161, 0.3);
+}
+
+/* Tray Styling */
+#tray {
+    background-color: shade(@base, 0.9);
+    padding: 6px 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: shade(@base, 0.9);
+    border-radius: 4px;
+    animation: attention-pulse 1s ease infinite;
+}
+
+@keyframes attention-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(243, 139, 168, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(243, 139, 168, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(243, 139, 168, 0);
+    }
+}
+
+/* Taskbar Styling */
+#taskbar button {
+    padding: 3px 6px;
+    margin: 6px 3px;
+    background: rgba(49, 50, 68, 0.75);
+    color: @text;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#taskbar button:hover {
+    background: rgba(69, 71, 90, 0.85);
+    color: @mauve;
+    border-color: rgba(203, 166, 247, 0.3);
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.3);
+}
+
+#taskbar button.active {
+    background: linear-gradient(135deg, rgba(203, 166, 247, 0.3) 0%, rgba(245, 194, 231, 0.3) 100%);
+    color: @mauve;
+    border-color: rgba(203, 166, 247, 0.5);
+    box-shadow: 0 2px 12px rgba(203, 166, 247, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+#taskbar button.active:hover {
+    box-shadow: 0 4px 16px rgba(203, 166, 247, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltip Styling */
+tooltip {
+    background: rgba(49, 50, 68, 0.98);
+    border: 2px solid rgba(203, 166, 247, 0.4);
+    border-radius: 4px;
+    color: @text;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    margin-bottom: 40px;
+}
+
+tooltip label {
+    color: @text;
+    padding: 8px;
+}
+
+/* Smooth transitions for all interactive elements */
+button, label {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Module Container Spacing */
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 0 8px;
+}
+
+.modules-left > * {
+    margin-left: 2px;
+}
+
+.modules-right > * {
+    margin-right: 2px;
+}
+/* MPRIS Enhanced Styling */
+#mpris {
+    padding: 6px 16px;
+    margin: 6px 8px;
+    background-color: shade(@base, 0.9);
+    color: @mauve;
+    border: 1px solid rgba(203, 166, 247, 0.3);
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(203, 166, 247, 0.2);
+    min-width: 200px;
+}
+
+#mpris:hover {
+    background-color: shade(@base, 0.9);
+    border-color: rgba(203, 166, 247, 0.5);
+    box-shadow: 0 4px 16px rgba(203, 166, 247, 0.4);
+}
+
+#mpris.playing {
+    animation: music-pulse 2s ease-in-out infinite;
+}
+
+@keyframes music-pulse {
+    0% {
+        box-shadow: 0 2px 8px rgba(203, 166, 247, 0.2);
+    }
+    100% {
+        box-shadow: 0 2px 8px rgba(203, 166, 247, 0.2);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(203, 166, 247, 0.5);
+    }
+}
+
+#mpris.paused {
+    background-color: shade(@base, 0.9);
+    color: @green;
+    border-color: rgba(166, 227, 161, 0.3);
+    box-shadow: 0 2px 8px rgba(166, 227, 161, 0.2);
+    font-style: italic;
+    opacity: 0.85;
+}
+
+#mpris.paused:hover {
+    background-color: shade(@base, 0.9);
+    border-color: rgba(166, 227, 161, 0.5);
+    box-shadow: 0 4px 16px rgba(166, 227, 161, 0.4);
+    opacity: 1;
+}
+
+#mpris.stopped {
+    background-color: shade(@base, 0.9);
+    color: @overlay0;
+    border-color: rgba(108, 112, 134, 0.3);
+    box-shadow: 0 2px 8px rgba(108, 112, 134, 0.1);
+}
+
+/* Scrollbar effect for long text */
+#mpris.scrolling {
+    animation: text-scroll 10s linear infinite;
+}
+
