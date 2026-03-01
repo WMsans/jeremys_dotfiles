@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+scriptDir="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
+config="$scriptDir/../../../config.conf"
+tempDir="${TMPDIR:-/tmp}/waybar-management"
+
+source "$config"
+source "$scriptDir/messages"

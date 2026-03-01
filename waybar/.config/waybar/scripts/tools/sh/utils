@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+scriptDir="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
+source "$scriptDir/vars"
+
+colorize() {
+    local red="\033[31m"
+    local green="\033[32m"
+    local blue="\033[34m"
+    local yellow="\033[33m"
+    local white="\033[37m"
+    local gray="\e[90m"
+    local clear="\033[0m"
+    local bold="\033[1m"
+
+    local color="$1"; shift
+    local style=""
+
+    if [[ "$1" == "bold" ]]; then
+        style="${!1}"
+        shift
+    fi
+
+    echo -ne "${!color}${style}$*${clear}"
+}
+
+printDone() {
+    echo -e "$(colorize green bold "$ICO_DONE $1")"
+}
+
+printError() {
+    echo -e "$(colorize red bold "$ICO_ERR $1")"
+}
+
+printImportant() {
+    echo -e "$(colorize yellow bold "$ICO_WARN $1") $2"
+}
+
+printQuestion() {
+    echo -en "$(colorize yellow bold "$ICO_QUESTION $1") [y/N]: "
+}
+
+printExec() {
+    echo -e "$(colorize blue bold "$ICO_EXEC $MNG_EXEC") $(colorize white $1) \n"
+}
+
+oneLine() {
+    tr '\n' ' ' | sed 's/ $//'
+}
+
+dependency() {
+    for cmd in ${1}; do
+        if ! command -v "$cmd" >/dev/null; then
+            printError "${CMD_ERR} ${cmd}"
+            pressReturn
+            tui_restore
+        fi
+    done
+}

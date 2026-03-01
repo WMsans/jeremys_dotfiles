@@ -107,7 +107,7 @@
 		},
 		"exec-if": "which waybar-module-pacman-updates",
 		"exec": "waybar-module-pacman-updates 5 --interval-seconds 5 --network-interval-seconds 300 --tooltip-align-columns",
-		"on-click": "wezterm -e ~/Programs/tools/sh/management"
+		"on-click": "wezterm -e ~/.config/waybar/scripts/tools/sh/management"
 	},
 	"mpris": {
 		"format": "{player_icon}  {title} · {artist}",
