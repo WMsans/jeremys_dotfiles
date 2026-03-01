@@ -8,6 +8,7 @@ local config = wezterm.config_builder()
 
 -- or, changing the font size and color scheme.
 config.font_size = 14
+config.font = wezterm.font("JetBrainsMono Nerd Font")
 config.color_scheme = "Catppuccin Mocha"
 
 config.default_prog = { "zsh" }
