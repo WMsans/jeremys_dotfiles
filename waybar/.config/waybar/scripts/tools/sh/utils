@@ -48,6 +48,21 @@ printMsg() {
     echo -e "$(colorize blue bold "$ICO_EXEC $1")"
 }
 
+printWhile() {
+    local pid=$1
+    local msg="$2"
+    local spinner=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+    local i=0
+
+    while kill -0 "$pid" 2>/dev/null; do
+        printf '\r%s %s' "${spinner[$((i % 10))]}" "$msg"
+        ((i++))
+        sleep 0.1
+    done
+    printf '\r%*s\r' "$(( ${#msg} + 2 ))" ''
+    wait "$pid"
+}
+
 oneLine() {
     tr '\n' ' ' | sed 's/ $//'
 }

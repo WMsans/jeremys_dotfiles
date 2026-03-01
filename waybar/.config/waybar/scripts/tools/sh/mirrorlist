@@ -3,6 +3,7 @@
 source "$(dirname "$0")/utils"
 
 [[ "$1" == "menu" ]] && MENU=1 || MENU=0
+: "${dynamicUrl:=https://archlinux.org/mirrorlist/?country=all&protocol=https&use_mirror_status=on}"
 selected=$2
 
 returnMenu() {
