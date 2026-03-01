@@ -44,6 +44,10 @@ printExec() {
     echo -e "$(colorize blue bold "$ICO_EXEC $MNG_EXEC") $(colorize white $1) \n"
 }
 
+printMsg() {
+    echo -e "$(colorize blue bold "$ICO_EXEC $1")"
+}
+
 oneLine() {
     tr '\n' ' ' | sed 's/ $//'
 }

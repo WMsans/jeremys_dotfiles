@@ -63,6 +63,7 @@ showMenu() {
             opts+=("$ICO_MNG_06 $MNG_CACHE")
             opts+=("$ICO_MNG_05 $MNG_REBUILD")
             opts+=("$ICO_MNG_08 $MNG_MIRROR")
+            opts+=("$ICO_MNG_13 $MNG_UPGRADE")
             opts+=("$ICO_MNG_10 $MNG_RECENT")
             redraw
             case $selected in
@@ -74,8 +75,9 @@ showMenu() {
                 5) showMenu cache;;
                 6) showMenu rebuild;;
                 7) tui_exit; exec $scriptDir/mirrorlist menu $selected;;
-                8) recentlyInstalled;;
-                9) showMenu main;;
+                8) showMenu upgrade;;
+                9) recentlyInstalled;;
+                10) showMenu main;;
             esac
             ;;
         browse)
@@ -144,6 +146,19 @@ showMenu() {
                 2) selected=6; showMenu main;;
             esac
             ;;
+        upgrade)
+            selected=0
+            opts+=("$ICO_MNG_13 $MNG_UPGRADE_FULL")
+            opts+=("$ICO_MNG_11 $MNG_UPGRADE_ARCH")
+            opts+=("$ICO_MNG_11 $MNG_UPGRADE_FLATPAK")
+            redraw
+            case $selected in
+                0) upgradeFull;;
+                1) upgradeArch;;
+                2) upgradeFlatpak;;
+                3) selected=8; showMenu main;;
+            esac
+            ;;
     esac
 }
 
@@ -166,8 +181,9 @@ draw_menu() {
            installed) header="$ICO_MNG_11 $MNG_INST_H";;
             explicit) header="$ICO_MNG_03 $MNG_EXPL_H";;
              orphans) header="$ICO_MNG_04 $MNG_ORPH_H";;
-               cache) header="$ICO_MNG_06 $MNG_CACHE_H";;
-             rebuild) header="$ICO_MNG_05 $MNG_REBUILD_H";;
+                cache) header="$ICO_MNG_06 $MNG_CACHE_H";;
+              rebuild) header="$ICO_MNG_05 $MNG_REBUILD_H";;
+              upgrade) header="$ICO_MNG_13 $MNG_UPGRADE_H";;
         esac
 
         echo -e "$(colorize gray bold $header)\n"
@@ -500,6 +516,38 @@ flatpakFlathub() {
 
 
 
+
+
+upgradeFull() {
+    tui_exit
+    $scriptDir/upgrade full
+    pressReturn
+    tui_restore
+}
+
+upgradeArch() {
+    tui_exit
+    local bin="$sudoBin pacman"
+    [[ $aur == true && -n $wrapper ]] && bin="$wrapper"
+    printExec "$bin -Syu"
+    $bin -Syu
+    pressReturn
+    tui_restore
+}
+
+upgradeFlatpak() {
+    tui_exit
+    dependency flatpak
+    printExec "flatpak update $flatpakFlags"
+    flatpak update $flatpakFlags
+    if [ "$flatpakRemoveUnused" = true ]; then
+        echo
+        printExec "flatpak uninstall --unused $flatpakFlags"
+        flatpak uninstall --unused $flatpakFlags
+    fi
+    pressReturn
+    tui_restore
+}
 
 pressReturn() {
     printf '\e[?25l'
