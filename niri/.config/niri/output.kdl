@@ -1,8 +1,24 @@
 // Monitor/display configuration
+output "BOE 0x09D5 Unknown" {
+    // off
+    // mode "1920x1080@120.030"
+    scale 2
+    transform "normal"
+    // position x=1280 y=0
+    backdrop-color "#11111b"
+    layout {
+        background-color "#181825"
+    }
+}
+
 output "eDP-1" {
     // off
     // mode "1920x1080@120.030"
     scale 1.5
     transform "normal"
     // position x=1280 y=0
+    backdrop-color "#11111b"
+    layout {
+        background-color "#181825"
+    }
 }
