@@ -421,7 +421,7 @@
 		"ChannelItem": {"strings": ["hasActiveThreads", "hasUsersInVoiceChannel", "UNREAD_IMPORTANT"]},
 		"ChannelItemIcon": {"strings": ["withGuildIcon:", "locked:", ".iconContainerWithGuildIcon"], "noSearch": true},
 		"ChannelMembers": {"strings": ["MEMBER_LIST_VIEWED", "getDimensions", "member-"], "noSearch": true},
-		"ChannelMembersThread": {"strings": ["MEMBER_LIST_VIEWED", "hiddenMembers", "PRIVATE_THREAD"], "noSearch": true},
+		"ChannelMembersThread": {"strings": ["MEMBER_LIST_VIEWED", "PRIVATE_THREAD"], "noSearch": true},
 		"ChannelPins": {"strings": ["PINNED_MESSAGES", "renderEmptyState", "listName"]},
 		"ChannelReply": {"strings": [".messageReference", ".REPLY_MENTION_OFF", ".mentionIcon"]},
 		"ChannelSidebar": {"strings": ["ACCOUNT_PANEL", "RTC_CONNECTION_PANEL", "ACCOUNT_A11Y_LABEL"]},
