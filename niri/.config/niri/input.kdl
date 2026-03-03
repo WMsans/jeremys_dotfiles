@@ -12,6 +12,7 @@ input {
         tap
         natural-scroll
         disabled-on-external-mouse
+        scroll-factor 0.1
     }
 
     mouse {
