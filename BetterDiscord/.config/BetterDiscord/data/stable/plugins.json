@@ -1,8 +1,8 @@
 {
-    "SplitLargeMessages": true,
+    "SplitLargeMessages": false,
     "BDFDB": false,
     "HideDisabledEmojis": true,
-    "BetterFriendList": true,
-    "CharCounter": true,
+    "BetterFriendList": false,
+    "CharCounter": false,
     "InvisibleTyping": true
 }
