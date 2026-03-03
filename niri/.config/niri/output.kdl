@@ -7,7 +7,7 @@ output "BOE 0x09D5 Unknown" {
     // position x=1280 y=0
     backdrop-color "#11111b"
     layout {
-        background-color "#181825"
+        background-color "#313244"
     }
 }
 
@@ -19,6 +19,6 @@ output "eDP-1" {
     // position x=1280 y=0
     backdrop-color "#11111b"
     layout {
-        background-color "#181825"
+        background-color "#313244"
     }
 }
