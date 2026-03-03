@@ -16,14 +16,109 @@
 				"DiscordTag": "297413",
 				"Menu": "861672",
 				"EmojiPickerListRow": "923861",
-				"ChannelTextAreaEditor": "415409",
 				"PeopleListItem": "414711",
 				"PeopleListSectionedLazy": "518620",
 				"TabBar": "761508",
 				"AnalyticsContext": "820284",
-				"PeopleListSectionedNonLazy": "901319"
+				"PeopleListSectionedNonLazy": "901319",
+				"ChannelTextAreaEditor": "415409"
 			},
 			"all": {
+				"ModuleIdCache": {
+					"DiscordTag": "297413",
+					"Menu": "861672",
+					"EmojiPickerListRow": "923861",
+					"PeopleListItem": "414711",
+					"PeopleListSectionedLazy": "518620",
+					"TabBar": "761508",
+					"AnalyticsContext": "820284",
+					"PeopleListSectionedNonLazy": "901319",
+					"ChannelTextAreaEditor": "415409"
+				},
+				"all": {
+					"ModuleIdCache": {
+						"DiscordTag": "297413",
+						"Menu": "861672",
+						"EmojiPickerListRow": "923861",
+						"PeopleListItem": "414711",
+						"PeopleListSectionedLazy": "518620",
+						"TabBar": "761508",
+						"AnalyticsContext": "820284",
+						"PeopleListSectionedNonLazy": "901319",
+						"ChannelTextAreaEditor": "415409"
+					},
+					"all": {
+						"ModuleIdCache": {
+							"DiscordTag": "297413",
+							"Menu": "861672",
+							"EmojiPickerListRow": "923861",
+							"ChannelTextAreaEditor": "415409",
+							"PeopleListItem": "414711",
+							"PeopleListSectionedLazy": "518620",
+							"TabBar": "761508",
+							"AnalyticsContext": "820284",
+							"PeopleListSectionedNonLazy": "901319"
+						},
+						"all": {
+							"changeLogs": {
+								"BDFDB": "4.4.6",
+								"BetterFriendList": "1.6.8",
+								"CharCounter": "1.7.1",
+								"SplitLargeMessages": "1.8.7"
+							},
+							"choices": {
+								"toastPosition": "right"
+							},
+							"general": {
+								"shareData": true,
+								"showToasts": true,
+								"checkForUpdates": false,
+								"showSupportBadges": false,
+								"useChromium": false
+							},
+							"hashes": {
+								"0BDFDB.data.json": "b7e1d2d9f648471712355e67b6df0df0208fe27b",
+								"0BDFDB.raw.css": "edada1edc762888eebc5aa44e5b8c1baf2e60104"
+							}
+						},
+						"changeLogs": {
+							"BDFDB": "4.4.6",
+							"BetterFriendList": "1.6.8",
+							"CharCounter": "1.7.1",
+							"SplitLargeMessages": "1.8.7"
+						},
+						"choices": {
+							"toastPosition": "right"
+						},
+						"general": {
+							"shareData": true,
+							"showToasts": true,
+							"checkForUpdates": false,
+							"showSupportBadges": false,
+							"useChromium": false
+						},
+						"hashes": {
+							"0BDFDB.data.json": "97c11584001df76e8a5b23a04def790492b87168"
+						}
+					},
+					"changeLogs": {
+						"BDFDB": "4.4.6",
+						"BetterFriendList": "1.6.8",
+						"CharCounter": "1.7.1",
+						"SplitLargeMessages": "1.8.7"
+					},
+					"choices": {
+						"toastPosition": "right"
+					},
+					"general": {
+						"shareData": true,
+						"showToasts": true,
+						"checkForUpdates": false,
+						"showSupportBadges": false,
+						"useChromium": false
+					},
+					"hashes": {}
+				},
 				"changeLogs": {
 					"BDFDB": "4.4.6",
 					"BetterFriendList": "1.6.8",
@@ -40,10 +135,7 @@
 					"showSupportBadges": false,
 					"useChromium": false
 				},
-				"hashes": {
-					"0BDFDB.data.json": "b7e1d2d9f648471712355e67b6df0df0208fe27b",
-					"0BDFDB.raw.css": "edada1edc762888eebc5aa44e5b8c1baf2e60104"
-				}
+				"hashes": {}
 			},
 			"changeLogs": {
 				"BDFDB": "4.4.6",
@@ -62,11 +154,11 @@
 				"useChromium": false
 			},
 			"hashes": {
-				"0BDFDB.data.json": "97c11584001df76e8a5b23a04def790492b87168"
+				"0BDFDB.data.json": "4386e9efbe23c9c775c12e6b81b2f392f51d6087"
 			}
 		},
 		"changeLogs": {
-			"BDFDB": "4.4.6",
+			"BDFDB": "4.4.7",
 			"BetterFriendList": "1.6.8",
 			"CharCounter": "1.7.1",
 			"SplitLargeMessages": "1.8.7"
@@ -82,16 +174,5 @@
 			"useChromium": false
 		},
 		"hashes": {}
-	},
-	"ModuleIdCache": {
-		"DiscordTag": "297413",
-		"Menu": "861672",
-		"EmojiPickerListRow": "923861",
-		"PeopleListItem": "414711",
-		"PeopleListSectionedLazy": "518620",
-		"TabBar": "761508",
-		"AnalyticsContext": "820284",
-		"PeopleListSectionedNonLazy": "901319",
-		"ChannelTextAreaEditor": "415409"
 	}
 }

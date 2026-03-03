@@ -2,7 +2,7 @@
  * @name BDFDB
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 4.4.6
+ * @version 4.4.7
  * @description Required Library for DevilBro's Plugins
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -2266,7 +2266,7 @@ module.exports = (_ => {
 					if (remaining.size) {
 						const req = Internal.getWebModuleReq();
 						const isSearchable = (m, checkObject) => m && (checkObject && typeof m == "object" || typeof m == "function") && !m.constructor.toLocaleString().startsWith("function DOMTokenList()") && typeof m.toLocaleString == "function" && m.toLocaleString().indexOf("IntlMessagesProxy") == -1;
-						let moduleCache = BdApi.Data.load("0BDFDB", "ModuleIdCache") || {};
+						let moduleCache = BDFDB.DataUtils.load(BDFDB, "ModuleIdCache") || {};
 						let cacheChanged = false;
 						for (let k in moduleCache) if (moduleCache[k] === false || !InternalData.PatchModules[k]) { delete moduleCache[k]; cacheChanged = true; }
 						let sessionNF = Internal._sessionNF || (Internal._sessionNF = new Set());
@@ -2319,7 +2319,7 @@ module.exports = (_ => {
 							}
 						}
 						if (remaining.size) for (let type of remaining) sessionNF.add(type);
-						if (cacheChanged) BdApi.Data.save("0BDFDB", "ModuleIdCache", moduleCache);
+						if (cacheChanged) BDFDB.DataUtils.save(moduleCache, BDFDB, "ModuleIdCache");
 					}
 					const registerPatch = (patchType, type) => {
 						let store = PluginStores.modulePatches[patchType];
