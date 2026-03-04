@@ -62,7 +62,7 @@
 	},
 	"memory": {
 		"format": "  {}%",
-		"on-click": "wezterm -e btop",
+		"on-click": "alacritty -e btop",
 	},
 	"battery": {
 		"states": {
@@ -82,7 +82,7 @@
 		"format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
 		"format-disconnected": "⚠ ",
 		"tooltip-format": "{essid}",
-		"on-click": "wezterm -e nmtui",
+		"on-click": "alacritty -e nmtui",
 	},
 	"wireplumber": {
 			"format": "{icon}  {volume}%",
@@ -107,7 +107,7 @@
 		},
 		"exec-if": "which waybar-module-pacman-updates",
 		"exec": "waybar-module-pacman-updates 5 --interval-seconds 5 --network-interval-seconds 300 --tooltip-align-columns",
-		"on-click": "wezterm -e ~/.config/waybar/scripts/tools/sh/management"
+		"on-click": "alacritty -e ~/.config/waybar/scripts/tools/sh/management"
 	},
 	"mpris": {
 		"format": "{player_icon}  {title} · {artist}",
