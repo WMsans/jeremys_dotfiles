@@ -21,3 +21,8 @@ window-rule {
     geometry-corner-radius 18
     clip-to-geometry true
 }
+
+window-rule {
+    match app-id="virt-manager"
+    default-column-width { proportion 1.0; }
+}
