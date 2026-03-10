@@ -9,6 +9,7 @@ binds {
     Mod+X { spawn "brave"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    Mod+Shift+S {spawn "/home/jeremy/Development/openpix/build/openpix"; }
 
     // Volume
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
