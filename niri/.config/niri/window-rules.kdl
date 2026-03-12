@@ -9,6 +9,16 @@ window-rule {
     open-floating true
 }
 
+window-rule {
+    match app-id="virt-manager"
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match title="openpix"
+    open-maximized true
+}
+
 // Example: block out password managers from screen capture
 /-window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
@@ -20,9 +30,4 @@ window-rule {
 window-rule {
     geometry-corner-radius 18
     clip-to-geometry true
-}
-
-window-rule {
-    match app-id="virt-manager"
-    default-column-width { proportion 1.0; }
 }
