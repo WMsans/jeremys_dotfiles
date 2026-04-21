@@ -19,6 +19,11 @@ window-rule {
     open-maximized true
 }
 
+window-rule {
+    match app-id="Godot"
+    open-maximized true
+}
+
 // Example: block out password managers from screen capture
 /-window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
