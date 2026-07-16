@@ -1,8 +1,8 @@
 {
   "lastChangelogVersion": "0.80.7",
   "theme": "dark",
-  "defaultProvider": "opencode",
-  "defaultModel": "grok-4.5",
+  "defaultProvider": "deepseek",
+  "defaultModel": "deepseek-v4-pro",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:pi-web-access"

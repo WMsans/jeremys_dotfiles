@@ -15,6 +15,7 @@ import {
 	wrapTextWithAnsi,
 } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
+import { spawn } from "node:child_process";
 
 interface OptionWithDesc {
 	label: string;
@@ -35,6 +36,15 @@ const OptionSchema = Type.Object({
 	label: Type.String({ description: "Display label for the option" }),
 	description: Type.Optional(Type.String({ description: "Optional description shown below label" })),
 });
+
+/** Fire-and-forget desktop notification via notify-send (libnotify). */
+function notifyUser(title: string, body: string) {
+	const proc = spawn("notify-send", [title, body, "--app-name=pi", "--urgency=normal"], {
+		stdio: "ignore",
+		detached: true,
+	});
+	proc.unref();
+}
 
 const QuestionParams = Type.Object({
 	question: Type.String({ description: "The question to ask the user" }),
@@ -69,6 +79,9 @@ export default function question(pi: ExtensionAPI) {
 			}
 
 			const allOptions: DisplayOption[] = [...params.options, { label: "Type something.", isOther: true }];
+
+			// Fire a desktop notification so the user knows pi needs their attention
+			notifyUser("pi — Question", params.question);
 
 			const result = await ctx.ui.custom<{ answer: string; wasCustom: boolean; index?: number } | null>(
 				(tui, theme, _kb, done) => {
