@@ -1,0 +1,1 @@
+{"version":1,"confusion":{"version":1,"sub":{},"del":{},"ins":{},"trans":{},"seen":{},"subCtx":{},"seenCtx":{},"observations":0},"reranker":{"version":1,"weights":[1,1.5,0,0,0.3,0,0,0],"updates":0},"learnList":[],"stats":{"corrections":0,"accepts":2,"reverts":0,"charsSaved":9},"updatedAt":1785881404379}
