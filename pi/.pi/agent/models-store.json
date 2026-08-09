@@ -77,52 +77,6 @@
         }
       },
       {
-        "id": "claude-opus-4-1",
-        "name": "Claude Opus 4.1 (latest)",
-        "api": "anthropic-messages",
-        "provider": "anthropic",
-        "baseUrl": "https://api.anthropic.com",
-        "reasoning": true,
-        "input": [
-          "text",
-          "image"
-        ],
-        "cost": {
-          "input": 15,
-          "output": 75,
-          "cacheRead": 1.5,
-          "cacheWrite": 18.75
-        },
-        "contextWindow": 200000,
-        "maxTokens": 32000,
-        "compat": {
-          "supportsStrictTools": true
-        }
-      },
-      {
-        "id": "claude-opus-4-1-20250805",
-        "name": "Claude Opus 4.1",
-        "api": "anthropic-messages",
-        "provider": "anthropic",
-        "baseUrl": "https://api.anthropic.com",
-        "reasoning": true,
-        "input": [
-          "text",
-          "image"
-        ],
-        "cost": {
-          "input": 15,
-          "output": 75,
-          "cacheRead": 1.5,
-          "cacheWrite": 18.75
-        },
-        "contextWindow": 200000,
-        "maxTokens": 32000,
-        "compat": {
-          "supportsStrictTools": true
-        }
-      },
-      {
         "id": "claude-opus-4-5",
         "name": "Claude Opus 4.5 (latest)",
         "api": "anthropic-messages",
@@ -384,9 +338,9 @@
         }
       }
     ],
-    "checkedAt": 1785774476259,
-    "lastModified": 1785146159000,
-    "etag": "W/\"2955a0a2593d701973abef2d80e4a8e0\""
+    "checkedAt": 1786311293559,
+    "lastModified": 1786021090000,
+    "etag": "W/\"2174ed7392c0d5376beba2c4ee0b170f\""
   },
   "deepseek": {
     "models": [
@@ -455,7 +409,7 @@
         }
       }
     ],
-    "checkedAt": 1785817592770,
+    "checkedAt": 1786311293426,
     "lastModified": 1785146165000,
     "etag": "W/\"15596aeadbdb5757401fcd2de812dcda\""
   },
@@ -463,7 +417,7 @@
     "models": [
       {
         "id": "deepseek-v4-flash",
-        "name": "DeepSeek V4 Flash (New)",
+        "name": "DeepSeek V4 Flash (2x usage)",
         "api": "openai-completions",
         "provider": "opencode-go",
         "baseUrl": "https://opencode.ai/zen/go/v1",
@@ -472,9 +426,9 @@
           "text"
         ],
         "cost": {
-          "input": 0.14,
-          "output": 0.28,
-          "cacheRead": 0.0028,
+          "input": 0.07,
+          "output": 0.14,
+          "cacheRead": 0.0014,
           "cacheWrite": 0
         },
         "compat": {
@@ -952,9 +906,9 @@
         "maxTokens": 131072
       }
     ],
-    "checkedAt": 1785817592727,
-    "lastModified": 1785760817000,
-    "etag": "W/\"9acd354f1fe084eec04a65a7ad727beb\""
+    "checkedAt": 1786212715230,
+    "lastModified": 1786098938000,
+    "etag": "W/\"fc45c5903aaf73b9f2cdfd74cc3f77f9\""
   },
   "opencode": {
     "models": [
@@ -1029,26 +983,6 @@
         },
         "contextWindow": 200000,
         "maxTokens": 64000
-      },
-      {
-        "id": "claude-opus-4-1",
-        "name": "Claude Opus 4.1",
-        "api": "anthropic-messages",
-        "provider": "opencode",
-        "baseUrl": "https://opencode.ai/zen",
-        "reasoning": true,
-        "input": [
-          "text",
-          "image"
-        ],
-        "cost": {
-          "input": 15,
-          "output": 75,
-          "cacheRead": 1.5,
-          "cacheWrite": 18.75
-        },
-        "contextWindow": 200000,
-        "maxTokens": 32000
       },
       {
         "id": "claude-opus-4-5",
@@ -1275,7 +1209,7 @@
       },
       {
         "id": "deepseek-v4-flash",
-        "name": "DeepSeek V4 Flash 0731",
+        "name": "DeepSeek V4 Flash",
         "api": "openai-completions",
         "provider": "opencode",
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -1310,7 +1244,7 @@
       },
       {
         "id": "deepseek-v4-flash-free",
-        "name": "DeepSeek V4 Flash Free (New)",
+        "name": "DeepSeek V4 Flash Free",
         "api": "openai-completions",
         "provider": "opencode",
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -2239,7 +2173,7 @@
       {
         "id": "grok-build-0.1",
         "name": "Grok Build 0.1",
-        "api": "openai-completions",
+        "api": "openai-responses",
         "provider": "opencode",
         "baseUrl": "https://opencode.ai/zen/v1",
         "reasoning": true,
@@ -2254,10 +2188,8 @@
           "cacheWrite": 0
         },
         "compat": {
-          "supportsStore": false,
-          "supportsDeveloperRole": false,
-          "supportsReasoningEffort": false,
-          "maxTokensField": "max_tokens"
+          "sessionAffinityFormat": "openai-nosession",
+          "supportsReasoningEffort": false
         },
         "contextWindow": 256000,
         "maxTokens": 256000,
@@ -2415,8 +2347,8 @@
         }
       },
       {
-        "id": "ling-3.0-flash-free",
-        "name": "Ling-3.0-flash Free",
+        "id": "ling-3.0-tiny-free",
+        "name": "Ling-3.0-tiny Free",
         "api": "openai-completions",
         "provider": "opencode",
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -2436,16 +2368,31 @@
           "maxTokensField": "max_tokens"
         },
         "contextWindow": 262144,
-        "maxTokens": 32768,
-        "thinkingLevelMap": {
-          "off": null,
-          "minimal": null,
-          "low": "low",
-          "medium": "medium",
-          "high": "high",
-          "xhigh": null,
-          "max": null
-        }
+        "maxTokens": 32768
+      },
+      {
+        "id": "longcat-2.0-free",
+        "name": "LongCat-2.0 Free",
+        "api": "openai-completions",
+        "provider": "opencode",
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "reasoning": true,
+        "input": [
+          "text"
+        ],
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "compat": {
+          "supportsStore": false,
+          "supportsDeveloperRole": false,
+          "maxTokensField": "max_tokens"
+        },
+        "contextWindow": 1000000,
+        "maxTokens": 131072
       },
       {
         "id": "mimo-v2.5-free",
@@ -2644,8 +2591,8 @@
         "maxTokens": 65536
       }
     ],
-    "checkedAt": 1785817593206,
-    "lastModified": 1785760815000,
-    "etag": "W/\"6a8d635c1854e90dcd972ee55d3ba535\""
+    "checkedAt": 1786311472404,
+    "lastModified": 1786098937000,
+    "etag": "W/\"6a3d869f61e07364aa91690663bac71e\""
   }
 }
