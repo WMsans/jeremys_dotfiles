@@ -264,6 +264,11 @@ function getPiInvocation(args: string[]): { command: string; args: string[] } {
 
 type OnUpdateCallback = (partial: AgentToolResult<SubagentDetails>) => void;
 
+interface ParentModel {
+	provider: string;
+	id: string;
+}
+
 async function runSingleAgent(
 	defaultCwd: string,
 	agents: AgentConfig[],
@@ -274,6 +279,7 @@ async function runSingleAgent(
 	signal: AbortSignal | undefined,
 	onUpdate: OnUpdateCallback | undefined,
 	makeDetails: (results: SingleResult[]) => SubagentDetails,
+	parentModel: ParentModel,
 ): Promise<SingleResult> {
 	const agent = agents.find((a) => a.name === agentName);
 
@@ -291,8 +297,13 @@ async function runSingleAgent(
 		};
 	}
 
+	// Subagents always use the parent session's model. The `model:`
+	// frontmatter in agent definition files (agents/*.md) is intentionally
+	// ignored — subagents inherit the model the user chose for this session.
+	const parentModelString =
+		parentModel.provider && parentModel.id ? `${parentModel.provider}/${parentModel.id}` : "";
 	const args: string[] = ["--mode", "json", "-p", "--no-session"];
-	if (agent.model) args.push("--model", agent.model);
+	if (parentModelString) args.push("--model", parentModelString);
 	if (agent.tools && agent.tools.length > 0) args.push("--tools", agent.tools.join(","));
 
 	let tmpPromptDir: string | null = null;
@@ -306,7 +317,7 @@ async function runSingleAgent(
 		messages: [],
 		stderr: "",
 		usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, contextTokens: 0, turns: 0 },
-		model: agent.model,
+		model: parentModelString,
 		step,
 	};
 
@@ -466,6 +477,7 @@ export default function (pi: ExtensionAPI) {
 			"Modes: single (agent + task), parallel (tasks array), chain (sequential with {previous} placeholder).",
 			`Default agent scope is "user" (from ${path.join(getAgentDir(), "agents")}).`,
 			`To enable project-local agents in ${CONFIG_DIR_NAME}/agents, set agentScope: "both" (or "project").`,
+			`Subagents always use the parent session's model; agent-file model settings are ignored.`,
 		].join(" "),
 		parameters: SubagentParams,
 
@@ -560,6 +572,7 @@ export default function (pi: ExtensionAPI) {
 						signal,
 						chainUpdate,
 						makeDetails("chain"),
+						{ provider: ctx.model?.provider ?? "", id: ctx.model?.id ?? "" },
 					);
 					results.push(result);
 
@@ -638,6 +651,7 @@ export default function (pi: ExtensionAPI) {
 							}
 						},
 						makeDetails("parallel"),
+						{ provider: ctx.model?.provider ?? "", id: ctx.model?.id ?? "" },
 					);
 					allResults[index] = result;
 					emitParallelUpdate();
@@ -674,6 +688,7 @@ export default function (pi: ExtensionAPI) {
 					signal,
 					onUpdate,
 					makeDetails("single"),
+					{ provider: ctx.model?.provider ?? "", id: ctx.model?.id ?? "" },
 				);
 				const isError = isFailedResult(result);
 				if (isError) {

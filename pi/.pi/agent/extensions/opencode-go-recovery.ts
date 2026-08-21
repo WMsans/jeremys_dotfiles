@@ -94,6 +94,7 @@ export default function (pi: ExtensionAPI) {
   let resetMs: number | null = null;
   let prematureEnd = false;
   let lastAssistantCompleted = false;
+  let freeUsageLimitError = false;
   let consecutiveFailures = 0;
   let shuttingDown = false;
 
@@ -108,6 +109,7 @@ export default function (pi: ExtensionAPI) {
     resetMs = null;
     prematureEnd = false;
     lastAssistantCompleted = false;
+    freeUsageLimitError = false;
   });
 
   // -------------------------------------------------------------------
@@ -121,6 +123,7 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_start", () => {
     shuttingDown = false;
     consecutiveFailures = 0;
+    freeUsageLimitError = false;
   });
 
   // -------------------------------------------------------------------
@@ -188,11 +191,22 @@ export default function (pi: ExtensionAPI) {
   // -------------------------------------------------------------------
 
   pi.on("agent_end", (event) => {
+    // FreeUsageLimitError 429s are owned by the free-limit-fallback
+    // extension (it switches provider). Skip recovery here so the two
+    // extensions never fight over the same failure.
+    const messages = event.messages ?? [];
+    for (const m of messages) {
+      const msg = m as { stopReason?: string; errorMessage?: string };
+      if (msg.stopReason === "error" && msg.errorMessage?.includes("429") && msg.errorMessage.includes("FreeUsageLimitError")) {
+        freeUsageLimitError = true;
+        break;
+      }
+    }
+
     // If the run produced no assistant message at all, or the last
     // assistant message has zero text and zero tool calls, treat it as a
     // premature stream end (the connection dropped before any useful
     // content arrived).
-    const messages = event.messages ?? [];
     const lastAssistant = [...messages]
       .reverse()
       .find((m: any) => m?.role === "assistant");
@@ -218,6 +232,15 @@ export default function (pi: ExtensionAPI) {
     // to exit (Ctrl+D), switch sessions (/new, /resume), or reload.
     // Sending "continue" would restart the agent and block shutdown.
     if (shuttingDown) return;
+
+    // FreeUsageLimitError is handled by the free-limit-fallback extension
+    // (switches to another provider). Do not wait-and-retry on the same
+    // provider for those.
+    if (freeUsageLimitError) {
+      freeUsageLimitError = false;
+      consecutiveFailures = 0;
+      return;
+    }
 
     // No error → reset the failure counter and move on.
     if (!openCodeError && !prematureEnd) {

@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "maxRounds": 3,
+  "roundBackoffMs": 15000,
+  "fallbacks": [
+    "opencode/x-preview-f-free"
+  ]
+}
