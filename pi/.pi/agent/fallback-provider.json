@@ -1,8 +1,9 @@
 {
-  "enabled": false,
+  "enabled": true,
   "maxRounds": 3,
-  "roundBackoffMs": 15000,
+  "roundBackoffMs": 10000,
   "fallbacks": [
-    "opencode/x-preview-f-free"
+    "opencode/x-preview-f-free",
+    "openrouter/stealth/ox-alpha"
   ]
 }
