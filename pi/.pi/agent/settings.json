@@ -1,8 +1,8 @@
 {
   "lastChangelogVersion": "0.84.2",
   "theme": "dark",
-  "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultProvider": "openrouter",
+  "defaultModel": "stealth/ox-alpha",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:pi-web-access",

@@ -15,7 +15,7 @@ import {
 	wrapTextWithAnsi,
 } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import { spawn } from "node:child_process";
+import { type ChildProcess, spawn } from "node:child_process";
 
 interface OptionWithDesc {
 	label: string;
@@ -37,12 +37,30 @@ const OptionSchema = Type.Object({
 	description: Type.Optional(Type.String({ description: "Optional description shown below label" })),
 });
 
-/** Fire-and-forget desktop notification via notify-send (libnotify). */
+/** Quote a string as an AppleScript string literal. */
+function appleScriptString(s: string): string {
+	return `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+}
+
+/** Fire-and-forget desktop notification (macOS via osascript, Linux via notify-send). */
 function notifyUser(title: string, body: string) {
-	const proc = spawn("notify-send", [title, body, "--app-name=pi", "--urgency=normal"], {
-		stdio: "ignore",
-		detached: true,
-	});
+	let proc: ChildProcess;
+
+	if (process.platform === "darwin") {
+		proc = spawn(
+			"osascript",
+			["-e", `display notification ${appleScriptString(body)} with title ${appleScriptString(title)}`],
+			{ stdio: "ignore", detached: true },
+		);
+	} else {
+		proc = spawn("notify-send", [title, body, "--app-name=pi", "--urgency=normal"], {
+			stdio: "ignore",
+			detached: true,
+		});
+	}
+
+	// A missing notifier binary must never crash pi with an uncaught exception.
+	proc.on("error", () => {});
 	proc.unref();
 }
 
