@@ -24,6 +24,12 @@ window-rule {
     open-maximized true
 }
 
+window-rule {
+    match app-id="Unityhub-unity-editor-6000.5.10f1" is-floating=true
+    open-focused false
+    opacity 0.2
+}
+
 // Example: block out password managers from screen capture
 /-window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
