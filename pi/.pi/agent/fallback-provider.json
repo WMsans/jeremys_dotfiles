@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "maxRounds": 3,
   "roundBackoffMs": 10000,
   "fallbacks": [

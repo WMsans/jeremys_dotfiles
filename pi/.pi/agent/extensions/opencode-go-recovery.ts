@@ -95,6 +95,9 @@ export default function (pi: ExtensionAPI) {
   let prematureEnd = false;
   let lastAssistantCompleted = false;
   let freeUsageLimitError = false;
+  // Owned by the codex-auto-resume extension (waits for the reset, then
+  // continues). Tracked here so this extension never fights it.
+  let codexLimitError = false;
   let consecutiveFailures = 0;
   let shuttingDown = false;
 
@@ -110,6 +113,7 @@ export default function (pi: ExtensionAPI) {
     prematureEnd = false;
     lastAssistantCompleted = false;
     freeUsageLimitError = false;
+    codexLimitError = false;
   });
 
   // -------------------------------------------------------------------
@@ -124,6 +128,7 @@ export default function (pi: ExtensionAPI) {
     shuttingDown = false;
     consecutiveFailures = 0;
     freeUsageLimitError = false;
+    codexLimitError = false;
   });
 
   // -------------------------------------------------------------------
@@ -202,6 +207,17 @@ export default function (pi: ExtensionAPI) {
         break;
       }
     }
+    for (const m of messages) {
+      const msg = m as { stopReason?: string; errorMessage?: string };
+      if (
+        msg.stopReason === "error" &&
+        msg.errorMessage &&
+        /Codex error:\s*The usage limit has been reached/i.test(msg.errorMessage)
+      ) {
+        codexLimitError = true;
+        break;
+      }
+    }
 
     // If the run produced no assistant message at all, or the last
     // assistant message has zero text and zero tool calls, treat it as a
@@ -238,6 +254,15 @@ export default function (pi: ExtensionAPI) {
     // provider for those.
     if (freeUsageLimitError) {
       freeUsageLimitError = false;
+      consecutiveFailures = 0;
+      return;
+    }
+
+    // Codex usage-limit errors are handled by the codex-auto-resume
+    // extension (waits for the reset, then continues). Do not
+    // premature-retry on the same provider for those.
+    if (codexLimitError) {
+      codexLimitError = false;
       consecutiveFailures = 0;
       return;
     }

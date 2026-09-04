@@ -35,6 +35,63 @@ const MAX_CONCURRENCY = 4;
 const COLLAPSED_ITEM_COUNT = 10;
 const PER_TASK_OUTPUT_CAP = 50 * 1024;
 
+// ---------------------------------------------------------------------------
+// Codex auto-resume (parent side).
+//
+// Subagent children run headless (`pi --mode json -p --no-session`), so the
+// codex-auto-resume extension stays dormant inside them (PI_SUBAGENT=1, set on
+// the child environment below) and they fail fast on a Codex usage limit.
+// The wait-and-retry therefore lives here: a Codex-limited attempt is
+// re-spawned after waiting, so subagents resume when the limit resets.
+// ---------------------------------------------------------------------------
+
+/** Wait between Codex-limit retries. */
+const CODEX_RETRY_DELAY_MS = 60_000;
+/** Give up re-spawning after this long (Codex windows reset within hours). */
+const CODEX_MAX_WAIT_MS = 8 * 3600_000;
+
+function isCodexLimitText(text: string | undefined | null): boolean {
+	if (!text) return false;
+	if (/Codex error:\s*The usage limit has been reached/i.test(text)) return true;
+	return /codex/i.test(text) && /usage.?limit/i.test(text);
+}
+
+/** True when a finished subagent run failed on the Codex usage limit. */
+function isCodexLimitResult(result: SingleResult): boolean {
+	const failed =
+		result.exitCode !== 0 || result.stopReason === "error" || result.stopReason === "aborted";
+	if (!failed) return false;
+	if (isCodexLimitText(result.errorMessage) || isCodexLimitText(result.stderr)) return true;
+	for (const msg of result.messages) {
+		if (msg.role !== "assistant") continue;
+		const m = msg as {
+			errorMessage?: string;
+			content?: Array<{ type?: string; text?: string }>;
+		};
+		if (isCodexLimitText(m.errorMessage)) return true;
+		for (const part of m.content ?? []) {
+			if (part?.type === "text" && isCodexLimitText(part.text)) return true;
+		}
+	}
+	return false;
+}
+
+/** Sleep that resolves false when the abort signal fires. */
+function sleepWithAbort(ms: number, signal: AbortSignal | undefined): Promise<boolean> {
+	return new Promise((resolve) => {
+		if (signal?.aborted) return resolve(false);
+		const timer = setTimeout(() => {
+			signal?.removeEventListener("abort", onAbort);
+			resolve(true);
+		}, ms);
+		const onAbort = () => {
+			clearTimeout(timer);
+			resolve(false);
+		};
+		signal?.addEventListener("abort", onAbort, { once: true });
+	});
+}
+
 function formatTokens(count: number): string {
 	if (count < 1000) return count.toString();
 	if (count < 10000) return `${(count / 1000).toFixed(1)}k`;
@@ -339,90 +396,135 @@ async function runSingleAgent(
 		}
 
 		args.push(`Task: ${task}`);
-		let wasAborted = false;
 
-		const exitCode = await new Promise<number>((resolve) => {
-			const invocation = getPiInvocation(args);
-			const proc = spawn(invocation.command, invocation.args, {
-				cwd: cwd ?? defaultCwd,
-				shell: false,
-				stdio: ["ignore", "pipe", "pipe"],
-			});
-			let buffer = "";
+		// Codex-limit retry loop: a failed attempt that hit the Codex usage
+		// limit waits for the reset and is re-spawned (same task, fresh run).
+		// Aborts (signal) and non-Codex failures return immediately.
+		let waitedMs = 0;
+		let attempt = 0;
+		while (true) {
+			attempt++;
+			let wasAborted = false;
 
-			const processLine = (line: string) => {
-				if (!line.trim()) return;
-				let event: any;
-				try {
-					event = JSON.parse(line);
-				} catch {
-					return;
-				}
+			const exitCode = await new Promise<number>((resolve) => {
+				const invocation = getPiInvocation(args);
+				const proc = spawn(invocation.command, invocation.args, {
+					cwd: cwd ?? defaultCwd,
+					shell: false,
+					stdio: ["ignore", "pipe", "pipe"],
+					// Marks the child so codex-auto-resume stays dormant in
+					// it (fail fast); the wait-and-retry lives here.
+					env: { ...process.env, PI_SUBAGENT: "1" },
+				});
+				let buffer = "";
 
-				if (event.type === "message_end" && event.message) {
-					const msg = event.message as Message;
-					currentResult.messages.push(msg);
-
-					if (msg.role === "assistant") {
-						currentResult.usage.turns++;
-						const usage = msg.usage;
-						if (usage) {
-							currentResult.usage.input += usage.input || 0;
-							currentResult.usage.output += usage.output || 0;
-							currentResult.usage.cacheRead += usage.cacheRead || 0;
-							currentResult.usage.cacheWrite += usage.cacheWrite || 0;
-							currentResult.usage.cost += usage.cost?.total || 0;
-							currentResult.usage.contextTokens = usage.totalTokens || 0;
-						}
-						if (!currentResult.model && msg.model) currentResult.model = msg.model;
-						if (msg.stopReason) currentResult.stopReason = msg.stopReason;
-						if (msg.errorMessage) currentResult.errorMessage = msg.errorMessage;
+				const processLine = (line: string) => {
+					if (!line.trim()) return;
+					let event: any;
+					try {
+						event = JSON.parse(line);
+					} catch {
+						return;
 					}
-					emitUpdate();
-				}
 
-				if (event.type === "tool_result_end" && event.message) {
-					currentResult.messages.push(event.message as Message);
-					emitUpdate();
-				}
-			};
+					if (event.type === "message_end" && event.message) {
+						const msg = event.message as Message;
+						currentResult.messages.push(msg);
 
-			proc.stdout.on("data", (data) => {
-				buffer += data.toString();
-				const lines = buffer.split("\n");
-				buffer = lines.pop() || "";
-				for (const line of lines) processLine(line);
-			});
+						if (msg.role === "assistant") {
+							currentResult.usage.turns++;
+							const usage = msg.usage;
+							if (usage) {
+								currentResult.usage.input += usage.input || 0;
+								currentResult.usage.output += usage.output || 0;
+								currentResult.usage.cacheRead += usage.cacheRead || 0;
+								currentResult.usage.cacheWrite += usage.cacheWrite || 0;
+								currentResult.usage.cost += usage.cost?.total || 0;
+								currentResult.usage.contextTokens = usage.totalTokens || 0;
+							}
+							if (!currentResult.model && msg.model) currentResult.model = msg.model;
+							if (msg.stopReason) currentResult.stopReason = msg.stopReason;
+							if (msg.errorMessage) currentResult.errorMessage = msg.errorMessage;
+						}
+						emitUpdate();
+					}
 
-			proc.stderr.on("data", (data) => {
-				currentResult.stderr += data.toString();
-			});
-
-			proc.on("close", (code) => {
-				if (buffer.trim()) processLine(buffer);
-				resolve(code ?? 0);
-			});
-
-			proc.on("error", () => {
-				resolve(1);
-			});
-
-			if (signal) {
-				const killProc = () => {
-					wasAborted = true;
-					proc.kill("SIGTERM");
-					setTimeout(() => {
-						if (!proc.killed) proc.kill("SIGKILL");
-					}, 5000);
+					if (event.type === "tool_result_end" && event.message) {
+						currentResult.messages.push(event.message as Message);
+						emitUpdate();
+					}
 				};
-				if (signal.aborted) killProc();
-				else signal.addEventListener("abort", killProc, { once: true });
-			}
-		});
 
-		currentResult.exitCode = exitCode;
-		if (wasAborted) throw new Error("Subagent was aborted");
-		return currentResult;
+				proc.stdout.on("data", (data) => {
+					buffer += data.toString();
+					const lines = buffer.split("\n");
+					buffer = lines.pop() || "";
+					for (const line of lines) processLine(line);
+				});
+
+				proc.stderr.on("data", (data) => {
+					currentResult.stderr += data.toString();
+				});
+
+				let killProc: (() => void) | null = null;
+				if (signal) {
+					killProc = () => {
+						wasAborted = true;
+						proc.kill("SIGTERM");
+						setTimeout(() => {
+							if (!proc.killed) proc.kill("SIGKILL");
+						}, 5000);
+					};
+					if (signal.aborted) killProc();
+					else signal.addEventListener("abort", killProc, { once: true });
+				}
+
+				proc.on("close", (code) => {
+					if (buffer.trim()) processLine(buffer);
+					if (killProc) signal?.removeEventListener("abort", killProc);
+					resolve(code ?? 0);
+				});
+
+				proc.on("error", () => {
+					if (killProc) signal?.removeEventListener("abort", killProc);
+					resolve(1);
+				});
+			});
+
+			currentResult.exitCode = exitCode;
+			if (wasAborted) throw new Error("Subagent was aborted");
+
+			if (isCodexLimitResult(currentResult) && !signal?.aborted) {
+				if (waitedMs >= CODEX_MAX_WAIT_MS) {
+					currentResult.stderr += `\n[subagent] Codex usage limit still in effect after ~${Math.round(waitedMs / 60000)}m of waiting — giving up.`;
+					return currentResult;
+				}
+				if (onUpdate) {
+					onUpdate({
+						content: [
+							{
+								type: "text",
+								text: `Codex usage limit reached — waiting for reset, then retrying "${agentName}" (attempt ${attempt}, waited ${Math.round(waitedMs / 60000)}m)...`,
+							},
+						],
+						details: makeDetails([currentResult]),
+					});
+				}
+				const finished = await sleepWithAbort(CODEX_RETRY_DELAY_MS, signal);
+				if (!finished) throw new Error("Subagent was aborted");
+				waitedMs += CODEX_RETRY_DELAY_MS;
+				// Fresh attempt: drop the failed run's messages/error, keep
+				// usage totals so cost accounting stays honest.
+				currentResult.messages = [];
+				currentResult.stderr = "";
+				currentResult.errorMessage = undefined;
+				currentResult.stopReason = undefined;
+				currentResult.exitCode = 0;
+				continue;
+			}
+
+			return currentResult;
+		}
 	} finally {
 		if (tmpPromptPath)
 			try {
