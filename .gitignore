@@ -4,3 +4,5 @@
 /fcitx5/.config/fcitx5/conf/cached_layouts
 /pi/.pi/agent/models-store.json
 /pi/.pi/web-search-cache
+/obsidian/.obsidian/plugins/smart-autocorrect/data.json
+/obsidian/.obsidian/plugins/smart-autocorrect/personalization.json
