@@ -1,4 +1,5 @@
 environment {
     GTK_THEME "Catppuccin-Mauve-Dark"
     QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_IM_MODULE "text-input-unstable-v3"
 }
