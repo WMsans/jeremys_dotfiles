@@ -1,12 +1,13 @@
 {
-  "lastChangelogVersion": "0.85.1",
+  "lastChangelogVersion": "1.2.0",
   "theme": "dark",
-  "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-flash",
+  "defaultProvider": "opencode",
+  "defaultModel": "space-bunny-free",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:pi-web-access",
     "git:github.com/obra/superpowers",
     "git:github.com/DietrichGebert/ponytail"
-  ]
+  ],
+  "hideThinkingBlock": false
 }
