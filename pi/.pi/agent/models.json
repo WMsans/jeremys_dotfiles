@@ -8,11 +8,11 @@
       "apiKey": "local",
       "models": [
         {
-          "id": "Swift-1.5-Qwen3.8-27b-NVFP4",
-          "name": "Swift 1.5 Qwen3.8 27B (2x2080Ti NVFP4)",
+          "id": "Swift-1.5-Qwen3.8-27b-W4A16-AWQ",
+          "name": "Swift 1.5 Qwen3.8 27B (2x2080Ti W4A16)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 229376,
+          "contextWindow": 262144,
           "maxTokens": 32768,
           "cost": {
             "input": 0,
