@@ -40,10 +40,10 @@
       "models": [
         {
           "id": "swift-1.5-iq3_s",
-          "name": "Swift 1.5 IQ3_S (Strata, 2x2080Ti, 64K)",
+          "name": "Swift 1.5 IQ3_S (Strata, 2x2080Ti, 128K int8)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 65536,
+          "contextWindow": 131072,
           "maxTokens": 4096,
           "cost": {
             "input": 0,
