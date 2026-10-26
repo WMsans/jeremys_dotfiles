@@ -8,7 +8,8 @@
     "npm:pi-web-access",
     "git:github.com/obra/superpowers",
     "git:github.com/DietrichGebert/ponytail",
-    "npm:pi-agent-browser-native"
+    "npm:pi-agent-browser-native",
+    "git:github.com/miqdadbadjuber/anti-slop"
   ],
   "hideThinkingBlock": false
 }
