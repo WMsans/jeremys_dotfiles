@@ -1,0 +1,11 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "theme": "dark",
+  "defaultProvider": "deepseek",
+  "defaultModel": "deepseek-flash",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "git:github.com/DietrichGebert/ponytail"
+  ],
+  "lastChangelogVersion": "1.4.0"
+}

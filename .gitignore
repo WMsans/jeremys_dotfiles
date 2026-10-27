@@ -9,3 +9,5 @@
 /pi/.pi/agent/web-search-cache
 pi/.pi/agent/bin
 pi/.pi/agent/install
+/pi/.pi/agent/profiles/*/git
+/pi/.pi/agent/profiles/*/npm

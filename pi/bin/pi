@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Launch Pi with a profile: `pi --profile minimalist`. A profile is an agent
+# dir under ~/.pi/agent/profiles; without the flag Pi uses ~/.pi/agent.
+# Install: ln -sfn ~/jeremys_dotfiles/pi/bin/pi ~/.local/bin/pi
+set -euo pipefail
+
+profile=
+args=()
+while (($#)); do
+  case $1 in
+    --profile)
+      (($# >= 2)) || { echo "pi: --profile needs a name" >&2; exit 2; }
+      profile=$2
+      shift 2
+      ;;
+    --profile=*)
+      profile=${1#--profile=}
+      shift
+      ;;
+    *)
+      args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ -n $profile && $profile != default ]]; then
+  dir=$HOME/.pi/agent/profiles/$profile
+  [[ -f $dir/settings.json ]] || {
+    echo "pi: unknown profile '$profile' (have: $(ls "$HOME/.pi/agent/profiles" 2>/dev/null | tr '\n' ' '))" >&2
+    exit 2
+  }
+  export PI_CODING_AGENT_DIR=$dir
+fi
+
+exec "${PI_BIN:-/usr/bin/pi}" "${args[@]}"
