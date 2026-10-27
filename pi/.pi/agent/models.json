@@ -27,8 +27,27 @@
           }
         },
         {
-          "id": "Qwen3.8-27B-pi-FP8",
-          "name": "Qwen3.8-27B-pi (2x2080Ti FP8)",
+          "id": "Qwen3.8-27B-pi-FP8-mtp3",
+          "name": "Qwen3.8-27B-pi-FP8 (mtp3 176K)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 176128,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        },
+        {
+          "id": "Qwen3.8-27B-pi-FP8-nomtp",
+          "name": "Qwen3.8-27B-pi-FP8 (nomtp 186K)",
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 186368,
