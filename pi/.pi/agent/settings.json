@@ -9,7 +9,11 @@
     "git:github.com/obra/superpowers",
     "git:github.com/DietrichGebert/ponytail",
     "npm:pi-agent-browser-native",
-    "git:github.com/miqdadbadjuber/anti-slop"
+    "git:github.com/miqdadbadjuber/anti-slop",
+    "git:github.com/alchaincyf/huashu-design"
   ],
-  "hideThinkingBlock": false
+  "hideThinkingBlock": false,
+  "skills": [
+    "git/github.com/alchaincyf/huashu-design"
+  ]
 }
