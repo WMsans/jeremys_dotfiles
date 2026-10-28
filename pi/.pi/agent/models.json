@@ -66,6 +66,33 @@
         }
       ]
     },
+    "llamacpp": {
+      "name": "llama.cpp 2x2080Ti",
+      "baseUrl": "http://127.0.0.1:8099/v1",
+      "api": "openai-completions",
+      "apiKey": "llamacpp",
+      "models": [
+        {
+          "id": "omnimerge-v6",
+          "name": "Qwen3.8-27B-Omnimerge-v6 Q8_0 (256K, MTP, vision)",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        }
+      ]
+    },
     "strata": {
       "name": "Strata 2x2080Ti",
       "baseUrl": "http://127.0.0.1:8080/v1",
