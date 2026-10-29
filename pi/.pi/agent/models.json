@@ -47,10 +47,10 @@
         },
         {
           "id": "Qwen3.8-27B-pi-FP8-nomtp",
-          "name": "Qwen3.8-27B-pi-FP8 (nomtp 186K)",
+          "name": "Qwen3.8-27B-pi-FP8 (nomtp 241K)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 186368,
+          "contextWindow": 241664,
           "maxTokens": 16384,
           "cost": {
             "input": 0,
