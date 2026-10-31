@@ -5,7 +5,7 @@
       "name": "Local 2x2080Ti",
       "baseUrl": "http://127.0.0.1:8000/v1",
       "api": "openai-completions",
-      "apiKey": "local",
+      "apiKey": "kSO-Tu8IQKwA-VW7JZFDUfKnqzowyj37Pyo6XW-zbJc",
       "models": [
         {
           "id": "Swift-1.5-Qwen3.8-27b-W4A16-AWQ",

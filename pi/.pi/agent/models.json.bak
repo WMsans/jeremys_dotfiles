@@ -1,0 +1,123 @@
+{
+  "$schema": "https://pi.dev/schemas/models.schema.json",
+  "providers": {
+    "local": {
+      "name": "Local 2x2080Ti",
+      "baseUrl": "http://127.0.0.1:8000/v1",
+      "api": "openai-completions",
+      "apiKey": "local",
+      "models": [
+        {
+          "id": "Swift-1.5-Qwen3.8-27b-W4A16-AWQ",
+          "name": "Swift 1.5 Qwen3.8 27B (2x2080Ti W4A16)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        },
+        {
+          "id": "Qwen3.8-27B-pi-FP8-mtp3",
+          "name": "Qwen3.8-27B-pi-FP8 (mtp3 176K)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 176128,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        },
+        {
+          "id": "Qwen3.8-27B-pi-FP8-nomtp",
+          "name": "Qwen3.8-27B-pi-FP8 (nomtp 241K)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 241664,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        }
+      ]
+    },
+    "llamacpp": {
+      "name": "llama.cpp 2x2080Ti",
+      "baseUrl": "http://127.0.0.1:8099/v1",
+      "api": "openai-completions",
+      "apiKey": "llamacpp",
+      "models": [
+        {
+          "id": "omnimerge-v6",
+          "name": "Qwen3.8-27B-Omnimerge-v6 Q8_0 (256K, MTP, vision)",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "qwen-chat-template"
+          }
+        }
+      ]
+    },
+    "strata": {
+      "name": "Strata 2x2080Ti",
+      "baseUrl": "http://127.0.0.1:8080/v1",
+      "api": "openai-completions",
+      "apiKey": "strata-local",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        {
+          "id": "swift-1.5-iq3_s",
+          "name": "Swift 1.5 IQ3_S (Strata, 2x2080Ti, 128K int8)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 4096,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}
